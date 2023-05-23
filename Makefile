@@ -2,7 +2,9 @@ KAFKA_DIST = ~/kafka/kafka_2.13-3.4.0
 
 .PHONY: clean
 clean:
-	docker compose down
+	docker compose -f compose-local.yaml down
+	docker compose -f compose-s3.yaml down
+	docker compose -f compose-minio.yaml down
 	rm -rf local-data remote-data fake-data.json
 
 local-data:
@@ -14,9 +16,17 @@ remote-data:
 fake-data.json:
 	python3 generate-fake-data.py 1000000 > fake-data.json
 
-.PHONY: run-kafka
-run-kafka:
-	docker compose up
+.PHONY: run-kafka-local
+run-kafka-local: local-data remote-data
+	docker compose -f compose-local.yaml up
+
+.PHONY: run-kafka-s3
+run-kafka-s3: local-data remote-data
+	docker compose -f compose-s3.yaml up
+
+.PHONY: run-kafka-minio
+run-kafka-minio: local-data remote-data
+	docker compose -f compose-minio.yaml up
 
 .PHONY: create-topic
 create-topic:

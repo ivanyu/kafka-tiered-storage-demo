@@ -3,10 +3,20 @@ services:
   zookeeper:
     image: zookeeper:3.5.10
 
+  minio:
+    image: quay.io/minio/minio
+    environment:
+      - MINIO_DOMAIN=minio
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    command: server /data --console-address ":9090"
+
   kafka:
-    image: "ivanyuaiven/kafka:3.0-2022-03-31-tiered-storage-1-ursm-1"
+    image: "ivanyuaiven/kafka:3.0-2022-03-31-tiered-storage-1-ursm-2"
     depends_on:
       - zookeeper
+      - minio
     ports:
       - "9092:9092"
     environment:
@@ -29,9 +39,14 @@ services:
       KAFKA_REMOTE_LOG_METADATA_MANAGER_LISTENER_NAME: BROKER
       KAFKA_REMOTE_LOG_STORAGE_MANAGER_CLASS_NAME: "io.aiven.kafka.tieredstorage.commons.UniversalRemoteStorageManager"
       KAFKA_RSM_CONFIG_CHUNK_SIZE: 102400
-      KAFKA_RSM_CONFIG_OBJECT_STORAGE_FACTORY: "io.aiven.kafka.tieredstorage.commons.storage.filesystem.FileSystemStorageFactory"
-      KAFKA_RSM_CONFIG_OBJECT_STORAGE_ROOT: "/kafka/kafka-tiered-storage"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_FACTORY: "io.aiven.kafka.tieredstorage.commons.storage.s3.S3StorageFactory"
+      KAFKA_RSM_CONFIG_KEY_PREFIX: "tiered-storage-demo/"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_ENDPOINT_URL: "http://minio:9000"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_BUCKET_NAME: "test-bucket"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_REGION: "eu-central-1"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_PATH_STYLE_ACCESS_ENABLED: "true"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_AWS_ACCESS_KEY_ID: "minioadmin"
+      KAFKA_RSM_CONFIG_OBJECT_STORAGE_AWS_SECRET_ACCESS_KEY: "minioadmin"
       CLASSPATH: "/ursm/*"
     volumes:
       - "./local-data:/var/lib/kafka/data"
-      - "./remote-data:/kafka/kafka-tiered-storage"
