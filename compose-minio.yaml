@@ -13,7 +13,7 @@ services:
     command: server /data --console-address ":9090"
 
   kafka:
-    image: "ivanyuaiven/kafka:3.0-2022-03-31-tiered-storage-1-ursm-2"
+    image: "ivanyuaiven/kafka:3.3-2022-10-06-tiered-storage-1-ursm-2"
     depends_on:
       - zookeeper
       - minio
