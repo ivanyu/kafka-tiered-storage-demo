@@ -18,10 +18,10 @@ It contains the local "remote" tier implementation (uses a local directory as a 
 ### Preparation for S3
 
 If you are running the `compose-s3.yaml` demo, set the following environment variables:
-- `KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_BUCKET_NAME` - the bucket name;
-- `KAFKA_RSM_CONFIG_OBJECT_STORAGE_S3_REGION` - the bucket region;
-- `KAFKA_RSM_CONFIG_OBJECT_STORAGE_AWS_ACCESS_KEY_ID` - the AWS access key ID;
-- `KAFKA_RSM_CONFIG_OBJECT_STORAGE_AWS_SECRET_ACCESS_KEY` - the AWS access secret key.
+- `KAFKA_RSM_CONFIG_STORAGE_S3_BUCKET_NAME` - the bucket name;
+- `KAFKA_RSM_CONFIG_STORAGE_S3_REGION` - the bucket region;
+- `KAFKA_RSM_CONFIG_STORAGE_AWS_ACCESS_KEY_ID` - the AWS access key ID;
+- `KAFKA_RSM_CONFIG_STORAGE_AWS_SECRET_ACCESS_KEY` - the AWS access secret key.
 
 You can either pass them from your shell or create the `.env` file.
 
