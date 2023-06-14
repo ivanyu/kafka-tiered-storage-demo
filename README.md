@@ -1,5 +1,7 @@
 # Kafka Tiered Storage Demo
 
+# DEPRECATED, PLEASE INSTEAD SEE https://github.com/aiven/tiered-storage-for-apache-kafka/tree/main/demo
+
 A demo project for Kafka Tiered Storage.
 
 The project uses a Docker image built from https://github.com/aiven/kafka/tree/3.0-2022-03-31-tiered-storage and https://github.com/aiven/tiered-storage-for-apache-kafka/tree/new-implementation.
